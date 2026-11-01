@@ -26,3 +26,9 @@ Documented in `THESIS_ALIGNMENT_AUDIT.md` and commits (real research mistakes, t
 ## Results
 
 Country hold-out (from audit table): Hybrid F1 **0.122**, Probit **0.121**, Logistic **0.110**, XGBoost **0.100**. Temporal: XGBoost best F1 **0.104**; Hybrid **0.000**. ROC AUC near 0.5 for most models (rare defaults). Regenerate with `python scripts/regenerate_thesis_results.py` and `pytest`.
+
+## Checked on 1 November 2026
+
+- `pytest tests` passed (11 tests). `run_evaluation.py` completed but produced different metrics from the committed CSVs (for example XGBoost country split F1 0.000 instead of 0.100). Dependencies are unpinned, so exact reproduction is not guaranteed.
+- The dataset values look implausible (Nigeria 1980 GDP per capita about 52,259 USD, VIX present for 1980, similar medians for every country). Its source is not documented, so it should be treated as synthetic or unverified.
+- `run_evaluation.py` also embeds figures into the thesis docx; this is now flagged in the README.
