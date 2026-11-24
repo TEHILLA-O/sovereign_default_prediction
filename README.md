@@ -81,6 +81,19 @@ The Probit fit has a pseudo R squared of 0.0086 and a likelihood ratio p value o
 
 **Rerun on 1 November 2026.** A fresh run finished cleanly but gave different numbers from the committed files, for example on the country split Probit F1 0.122 with AUC 0.589, hybrid F1 0.090 with AUC 0.444, and XGBoost F1 0.000 with AUC 0.556; on the temporal split the hybrid scored F1 0.076. The overall picture (near chance) is the same, but individual rankings are not stable between runs. The dependencies are not pinned, which is a likely cause. The committed results were left as they were.
 
+## Reproduction, leakage checks and ablation
+
+[docs/RESEARCH.md](docs/RESEARCH.md) (24 November 2026) reruns the tabular models twice in a pinned environment ([requirements-lock.txt](requirements-lock.txt)), compares random, country grouped and expanding window splits, runs a feature group ablation over 25 folds per variant, adds a "defaulted last year" baseline and slices results by decade. Findings:
+
+- With pinned versions the Probit, logistic and XGBoost results now repeat exactly between runs, but none matches the committed numbers, so those came from an environment or data state that cannot be recovered.
+- All three split schemes give a mean ROC AUC between 0.49 and 0.54, and every feature group ablation change is smaller than the fold to fold noise. The features carry no measurable signal in this dataset.
+- Only 11% of defaults after 2010 follow a default the year before, which is unusual for real sovereign defaults and supports the data warning above.
+
+```bash
+pip install -r requirements-lock.txt
+python -m research.reproduce_and_ablate --out results/research   # about 20 minutes on CPU
+```
+
 ## Checks
 
 | Check | Result |
@@ -117,7 +130,7 @@ The dataset path is `extras/sovereign_default_dataset_1980_2022.csv - sovereign_
 
 - Results are close to chance, as described above.
 - Dataset provenance is undocumented and the values look implausible for real countries.
-- Results are not exactly reproducible between runs, and `requirements.txt` has no versions.
+- `requirements.txt` has no versions. `requirements-lock.txt` pins the versions that make the tabular models repeat exactly, but the committed results still cannot be reproduced.
 - `run_evaluation.py` modifies the thesis docx even though it is described as the metrics only step.
 - `results/evaluation_summary.json` stores the dataset path with Windows backslashes.
 - Several older notebooks and duplicate copies of the dataset are kept in `extras/`, `base line/` and `hybrid/`.

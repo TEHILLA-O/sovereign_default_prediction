@@ -1,0 +1,348 @@
+{
+  "rows": 3010,
+  "countries": 68,
+  "default_rate": 0.05448504983388704,
+  "environment": {
+    "numpy": "2.4.6",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.2.0",
+    "imbalanced-learn": "0.14.2",
+    "statsmodels": "0.15.0",
+    "python": "3.11.17",
+    "device": "cpu"
+  },
+  "reproduction": {
+    "rows": [
+      {
+        "split": "country",
+        "model": "Probit",
+        "committed_roc_auc": 0.5633,
+        "rerun1_roc_auc": 0.5894,
+        "rerun2_roc_auc": 0.5894,
+        "committed_f1": 0.1207,
+        "rerun1_f1": 0.1222,
+        "rerun2_f1": 0.1222,
+        "reruns_identical": true,
+        "matches_committed_auc_4dp": false
+      },
+      {
+        "split": "country",
+        "model": "Logistic Regression",
+        "committed_roc_auc": 0.5593,
+        "rerun1_roc_auc": 0.5854,
+        "rerun2_roc_auc": 0.5854,
+        "committed_f1": 0.1099,
+        "rerun1_f1": 0.1099,
+        "rerun2_f1": 0.1099,
+        "reruns_identical": true,
+        "matches_committed_auc_4dp": false
+      },
+      {
+        "split": "country",
+        "model": "XGBoost",
+        "committed_roc_auc": 0.4942,
+        "rerun1_roc_auc": 0.5564,
+        "rerun2_roc_auc": 0.5564,
+        "committed_f1": 0.0995,
+        "rerun1_f1": 0.0,
+        "rerun2_f1": 0.0,
+        "reruns_identical": true,
+        "matches_committed_auc_4dp": false
+      },
+      {
+        "split": "temporal",
+        "model": "Probit",
+        "committed_roc_auc": 0.5069,
+        "rerun1_roc_auc": 0.523,
+        "rerun2_roc_auc": 0.523,
+        "committed_f1": 0.0804,
+        "rerun1_f1": 0.0885,
+        "rerun2_f1": 0.0885,
+        "reruns_identical": true,
+        "matches_committed_auc_4dp": false
+      },
+      {
+        "split": "temporal",
+        "model": "Logistic Regression",
+        "committed_roc_auc": 0.5016,
+        "rerun1_roc_auc": 0.5141,
+        "rerun2_roc_auc": 0.5141,
+        "committed_f1": 0.0775,
+        "rerun1_f1": 0.0988,
+        "rerun2_f1": 0.0988,
+        "reruns_identical": true,
+        "matches_committed_auc_4dp": false
+      },
+      {
+        "split": "temporal",
+        "model": "XGBoost",
+        "committed_roc_auc": 0.577,
+        "rerun1_roc_auc": 0.5662,
+        "rerun2_roc_auc": 0.5662,
+        "committed_f1": 0.1036,
+        "rerun1_f1": 0.0925,
+        "rerun2_f1": 0.0925,
+        "reruns_identical": true,
+        "matches_committed_auc_4dp": false
+      }
+    ]
+  },
+  "split_schemes": [
+    {
+      "scheme": "random_rows",
+      "model": "logistic",
+      "folds": 25,
+      "mean_auc": 0.522353776176341,
+      "std_auc": 0.03701185565090113
+    },
+    {
+      "scheme": "random_rows",
+      "model": "xgboost",
+      "folds": 25,
+      "mean_auc": 0.5281988596070781,
+      "std_auc": 0.039806491164005336
+    },
+    {
+      "scheme": "country_groups",
+      "model": "logistic",
+      "folds": 25,
+      "mean_auc": 0.5218259098665137,
+      "std_auc": 0.04852974612632531
+    },
+    {
+      "scheme": "country_groups",
+      "model": "xgboost",
+      "folds": 25,
+      "mean_auc": 0.4873329950354189,
+      "std_auc": 0.04167107822586947
+    },
+    {
+      "scheme": "expanding_time",
+      "model": "logistic",
+      "folds": 5,
+      "mean_auc": 0.5079286888196323,
+      "std_auc": 0.0717576949868077
+    },
+    {
+      "scheme": "expanding_time",
+      "model": "xgboost",
+      "folds": 5,
+      "mean_auc": 0.5361868013741711,
+      "std_auc": 0.047644497179923195
+    }
+  ],
+  "feature_group_ablation": {
+    "cv": "5 fold country grouped CV x 5 country shuffles",
+    "groups": {
+      "debt": [
+        "ExtDebt_GDP",
+        "DebtServ_XGDP"
+      ],
+      "domestic_macro": [
+        "RealGDP_growth",
+        "Inflation",
+        "fiscal_balance",
+        "Trade_openness"
+      ],
+      "global": [
+        "World_GDP_growth",
+        "Oil_price_index",
+        "US_FedFundsRate",
+        "VIX"
+      ],
+      "political": [
+        "ICRG_political",
+        "ElectionYear"
+      ]
+    },
+    "rows": [
+      {
+        "model": "logistic",
+        "variant": "all features",
+        "mean_auc": 0.5218259098665137,
+        "std_auc": 0.04852974612632531,
+        "delta_vs_all": 0.0
+      },
+      {
+        "model": "logistic",
+        "variant": "drop debt",
+        "mean_auc": 0.5302153861129324,
+        "std_auc": 0.05342395478440689,
+        "delta_vs_all": 0.008389476246418726
+      },
+      {
+        "model": "logistic",
+        "variant": "only debt",
+        "mean_auc": 0.5073876463612987,
+        "std_auc": 0.04344103313789085,
+        "delta_vs_all": -0.014438263505214932
+      },
+      {
+        "model": "logistic",
+        "variant": "drop domestic_macro",
+        "mean_auc": 0.5343598759857321,
+        "std_auc": 0.04884971694291587,
+        "delta_vs_all": 0.01253396611921842
+      },
+      {
+        "model": "logistic",
+        "variant": "only domestic_macro",
+        "mean_auc": 0.49306544131058105,
+        "std_auc": 0.05179536631411867,
+        "delta_vs_all": -0.028760468555932617
+      },
+      {
+        "model": "logistic",
+        "variant": "drop global",
+        "mean_auc": 0.5028160736442868,
+        "std_auc": 0.04136645615905143,
+        "delta_vs_all": -0.01900983622222685
+      },
+      {
+        "model": "logistic",
+        "variant": "only global",
+        "mean_auc": 0.5342046370520873,
+        "std_auc": 0.053954929266578765,
+        "delta_vs_all": 0.012378727185573646
+      },
+      {
+        "model": "logistic",
+        "variant": "drop political",
+        "mean_auc": 0.511150580375664,
+        "std_auc": 0.050618536909176615,
+        "delta_vs_all": -0.010675329490849705
+      },
+      {
+        "model": "logistic",
+        "variant": "only political",
+        "mean_auc": 0.5343564090776998,
+        "std_auc": 0.035512336287616866,
+        "delta_vs_all": 0.012530499211186097
+      },
+      {
+        "model": "xgboost",
+        "variant": "all features",
+        "mean_auc": 0.4873329950354189,
+        "std_auc": 0.04167107822586947,
+        "delta_vs_all": 0.0
+      },
+      {
+        "model": "xgboost",
+        "variant": "drop debt",
+        "mean_auc": 0.4874315487302686,
+        "std_auc": 0.04535455837257576,
+        "delta_vs_all": 9.855369484973453e-05
+      },
+      {
+        "model": "xgboost",
+        "variant": "only debt",
+        "mean_auc": 0.4827019250271365,
+        "std_auc": 0.04345791587298391,
+        "delta_vs_all": -0.00463107000828239
+      },
+      {
+        "model": "xgboost",
+        "variant": "drop domestic_macro",
+        "mean_auc": 0.4683176602222602,
+        "std_auc": 0.06113491345926349,
+        "delta_vs_all": -0.019015334813158702
+      },
+      {
+        "model": "xgboost",
+        "variant": "only domestic_macro",
+        "mean_auc": 0.5065879847725495,
+        "std_auc": 0.050288728624244904,
+        "delta_vs_all": 0.019254989737130634
+      },
+      {
+        "model": "xgboost",
+        "variant": "drop global",
+        "mean_auc": 0.5002680443200597,
+        "std_auc": 0.049419674707298425,
+        "delta_vs_all": 0.012935049284640787
+      },
+      {
+        "model": "xgboost",
+        "variant": "only global",
+        "mean_auc": 0.464147743587707,
+        "std_auc": 0.04189310157147213,
+        "delta_vs_all": -0.023185251447711885
+      },
+      {
+        "model": "xgboost",
+        "variant": "drop political",
+        "mean_auc": 0.48513906970397186,
+        "std_auc": 0.044577888863533276,
+        "delta_vs_all": -0.002193925331447022
+      },
+      {
+        "model": "xgboost",
+        "variant": "only political",
+        "mean_auc": 0.5017682419696762,
+        "std_auc": 0.05216475229521768,
+        "delta_vs_all": 0.014435246934257295
+      }
+    ]
+  },
+  "persistence_baseline_temporal": {
+    "test_rows": 840,
+    "test_defaults": 37,
+    "share_of_defaults_preceded_by_default": 0.10810810810810811,
+    "persistence_roc_auc": 0.5316381138298947,
+    "persistence_pr_auc": 0.050096525096525096,
+    "logistic_roc_auc": 0.5141193497357881,
+    "logistic_pr_auc": 0.07124863170164111,
+    "logistic_minus_persistence_auc_95ci": [
+      -0.12465856618675232,
+      0.08095063012976939
+    ],
+    "logistic_auc_95ci": [
+      0.41365089464404536,
+      0.6140100617368532
+    ],
+    "mcnemar_logistic_vs_always_no_default": {
+      "logistic_right_rule_wrong": 16,
+      "logistic_wrong_rule_right": 345,
+      "p_value": 1.2668284252150304e-81
+    }
+  },
+  "decade_slices": [
+    {
+      "decade": 1980,
+      "rows": 700,
+      "defaults": 47,
+      "default_rate": 0.06714285714285714,
+      "roc_auc": 0.5324362190870288
+    },
+    {
+      "decade": 1990,
+      "rows": 700,
+      "defaults": 35,
+      "default_rate": 0.05,
+      "roc_auc": 0.38771213748657357
+    },
+    {
+      "decade": 2000,
+      "rows": 700,
+      "defaults": 40,
+      "default_rate": 0.05714285714285714,
+      "roc_auc": 0.5823863636363636
+    },
+    {
+      "decade": 2010,
+      "rows": 700,
+      "defaults": 37,
+      "default_rate": 0.05285714285714286,
+      "roc_auc": 0.5709918062859239
+    },
+    {
+      "decade": 2020,
+      "rows": 210,
+      "defaults": 5,
+      "default_rate": 0.023809523809523808,
+      "roc_auc": 0.4136585365853659
+    }
+  ],
+  "runtime_seconds": 1262.5
+}
